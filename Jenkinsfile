@@ -22,7 +22,7 @@ pipeline {
             }
         }
         // SSH를 이용한 실행파일 전송
-        stage*('SSH Publish') {
+        stage('SSH Publish') {
             steps {
                 echo 'SSH Publish'
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'target',
