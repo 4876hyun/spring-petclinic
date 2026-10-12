@@ -29,8 +29,8 @@ pipeline {
             steps{
                 echo 'Docker Image Create'
                 sh '''
-                    docker build -t spring-petclinic:${BULID_NUMBER} .
-                    docker tag spring-petclinic:${BULID_NUMBER} 4876hyun/spring-petclinic:latest
+                    docker build -t spring-petclinic:${BUILD_NUMBER} .
+                    docker tag spring-petclinic:${BUILD_NUMBER} 4876hyun/spring-petclinic:latest
                 '''
             }
         }
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 echo 'Docker Image Push'
                 // Docker Login
-                sh 'ehco ${DOCKERHUB_CRED_PSW} | docker login -u ${DOCKERHUB_CRED_USR} --password-sdtin'
+                sh 'ehco ${DOCKERHUB_CRED_PSW} | docker login -u ${DOCKERHUB_CRED_USR} --password-stdin'
 
                 // Docker Hub Push
                 sh 'docker image push 4876hyun/spring-petclinic:latest'
@@ -47,7 +47,7 @@ pipeline {
             post {
                 always {
                     sh '''
-                    docker rmi -f spring-petclinic:${BULID_NUMBER}
+                    docker rmi -f spring-petclinic:${BUILD_NUMBER}
                     docker rmi -f 4876hyun/spring-petclinic:latest
                     '''
                 }
